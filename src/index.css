@@ -1,15 +1,21 @@
+@import "tailwindcss";
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
+  /* --- LIGHT MODE (Clean, Professional Off-White & Gray) --- */
+  --text: #636363;            /* e& Gray for body text */
+  --text-h: #08060d;          /* High contrast dark for headings */
+  --bg: #f8f9fa;              /* Soft off-white canvas background */
+  --border: #e6e6dc;          /* e& Beige for clean, subtle borders */
+  --code-bg: #ffffff;         /* Pure white container cards */
+  
+  /* e& Red used strictly as a 10% accent */
+  --accent: #e00800;          
+  --accent-bg: rgba(224, 8, 0, 0.08);   /* Light red tint for active hover/states */
+  --accent-border: rgba(224, 8, 0, 0.4); /* Subtle red border outline */
+  --social-bg: rgba(230, 230, 220, 0.5); /* Neutral beige transparent background */
+  
   --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    rgba(0, 0, 0, 0.05) 0 10px 15px -3px, rgba(0, 0, 0, 0.02) 0 4px 6px -2px;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -32,17 +38,21 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
+    /* --- DARK MODE (Premium Matte Black & Charcoal Foundation) --- */
+    --text: #9ca3af;          /* Soft gray for comfortable data reading */
+    --text-h: #ffffff;        /* Pure crisp white for high-priority KPIs and titles */
+    --bg: #121214;            /* Deep matte black background canvas */
+    --border: #2b2d31;        /* Dark slate gray to divide rows/columns cleanly */
+    --code-bg: #1e1f22;       /* Elevated dark charcoal for dashboard data cards */
+    
+    /* e& Red accent - neon pop against the dark gray */
+    --accent: #e00800;        
+    --accent-bg: rgba(224, 8, 0, 0.15);   /* Glowing dark-red hue for active selections */
+    --accent-border: rgba(224, 8, 0, 0.6); /* Defined red accent border */
+    --social-bg: rgba(43, 45, 49, 0.5);   /* Semi-transparent dark slate */
+    
     --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+      rgba(0, 0, 0, 0.5) 0 10px 15px -3px, rgba(0, 0, 0, 0.3) 0 4px 6px -2px;
   }
 
   #social .button-icon {
@@ -55,14 +65,11 @@ body {
 }
 
 #root {
-  width: 1126px;
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
   border-inline: 1px solid var(--border);
   min-height: 100svh;
-  display: flex;
-  flex-direction: column;
   box-sizing: border-box;
 }
 
@@ -93,19 +100,4 @@ h2 {
 }
 p {
   margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }
