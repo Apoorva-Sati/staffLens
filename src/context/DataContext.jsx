@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { loadPublicFile } from "../utils/dataService";
 
-const DataContext = createContext(null);
+const DashboardContext = createContext(null);
 
 export function DashboardProvider({ children }) {
   const [data, setData] = useState([]);
@@ -16,12 +16,12 @@ export function DashboardProvider({ children }) {
   }, []);
 
   return (
-    <DataContext.Provider value={{ data, loading, error }}>
+    <DashboardContext.Provider value={{ data, loading, error }}>
       {children}
-    </DataContext.Provider>
+    </DashboardContext.Provider>
   );
 }
 
 export function useDashboard() {
-  return useContext(DataContext);
+  return useContext(DashboardContext);
 }

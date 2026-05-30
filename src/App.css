@@ -1,6 +1,5 @@
 :root {
-  --bg-main: #0a0a0a;
-  --bg-secondary: #121212;
+  --bg-main: #0d0d0d;
   --card-bg: #181818;
   --sidebar-bg: #0d0d0d;
 
@@ -54,7 +53,7 @@ body {
 .sidebar {
   background: var(--sidebar-bg);
   border-right: 1px solid var(--border);
-  width: 256px;
+  width: 288px;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -99,20 +98,6 @@ body {
 
 .nav-item.active .nav-icon {
   color: var(--text-main);
-}
-
-.nav-dot {
-  display: none;
-  margin-left: auto;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--text-main);
-  opacity: 0.8;
-}
-
-.nav-item.active .nav-dot {
-  display: block;
 }
 
 .sidebar-footer {
