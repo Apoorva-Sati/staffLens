@@ -2,7 +2,7 @@ import "./App.css";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import { DashboardProvider } from "./context/DataContext";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import PerformanceReport from "./pages/Performance";
 
@@ -27,6 +27,7 @@ function App() {
           </div>
           <div className="flex-1 overflow-y-auto">
             <Routes>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/performance" element={<PerformanceReport />} />
             </Routes>

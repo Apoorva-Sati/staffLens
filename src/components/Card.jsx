@@ -8,9 +8,9 @@ const Card = ({ title, value, subtitle, icon }) => {
                     {title}
                 </div>
                 <div>
-                    <div className="fw-bold text-danger mb-1 text-4xl truncate max-w-37.5">
-  {value}
-</div>
+                    <div className="fw-bold text-danger mb-1 text-4xl truncate max-w-37.5"  title={value}>
+                        {value}
+                    </div>
                     <small className="text-secondary">
                         {subtitle}
                     </small>
