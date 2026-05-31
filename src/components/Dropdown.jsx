@@ -1,4 +1,3 @@
-// src/components/Dropdown.jsx
 import React, { useState } from 'react'
 
 const Dropdown = ({ label, options, onSelect }) => {

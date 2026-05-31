@@ -1,4 +1,3 @@
-// src/components/PerformanceTable.jsx
 import React from 'react'
 import { useDashboard } from '../context/DataContext'
 import ChartImage from './ChartImage'
@@ -59,12 +58,12 @@ const StatRow = ({ label, value, bar, icons }) => (
     </div>
 )
 
-const PerformanceTable = ({ top3, bottom3, bestSupervisor }) => {
+const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
     const { stats } = useDashboard()
     const totalTasks = stats?.totalTasks || 0
 
     return (
-        <div className="grid grid-cols-[1fr_auto] gap-4">
+        <div className="grid grid-cols-[1fr_auto] gap-4 items-start">
 
             {/* LEFT — Leaderboard */}
             <div className="card">
@@ -101,7 +100,7 @@ const PerformanceTable = ({ top3, bottom3, bestSupervisor }) => {
             </div>
 
             {/* RIGHT — Supervisor stats */}
-            <div className="card min-w-60">
+            <div className="bg-card border border-(--border) rounded-xl p-5 shadow-sm min-w-60">
                 <div className="text-xs font-bold tracking-[1.5px] text-(--text-muted) mb-5">
                     TEAM SUMMARY & SUPERVISOR STATS
                 </div>
@@ -128,4 +127,4 @@ const PerformanceTable = ({ top3, bottom3, bestSupervisor }) => {
     )
 }
 
-export default PerformanceTable
+export default LeaderboardTable

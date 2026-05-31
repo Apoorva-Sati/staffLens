@@ -1,4 +1,3 @@
-// src/components/Filters.jsx
 import React, { useState } from 'react'
 import { useDashboard } from '../context/DataContext'
 import Dropdown from './Dropdown'
@@ -10,6 +9,16 @@ const Filters = ({ onFilterChange }) => {
   const [supervisor, setSup]   = useState('All Supervisors')
   const [performance, setPerf] = useState('All Performance')
   const [sort, setSort]        = useState('Avg Productivity ↓')
+
+  const parseDate = (dateStr) => {
+  if (!dateStr) return null
+
+  const [day, month, year] = dateStr.split('-')
+
+  const d = new Date(year, month - 1, day)
+
+  return isNaN(d.getTime()) ? null : d
+}
 
   const months = ['All Months', ...new Set(
     data.map(row => {

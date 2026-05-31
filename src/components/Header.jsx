@@ -1,5 +1,4 @@
 import React from "react";
-import Filters from "./Filters";
 
 const Header = () => {
   return (
@@ -9,7 +8,6 @@ const Header = () => {
           Productivity Dashboard - AAN
         </div>
       </div>
-      <Filters />
     </div>
   );
 };

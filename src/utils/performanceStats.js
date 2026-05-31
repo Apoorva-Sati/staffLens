@@ -41,6 +41,13 @@ const bottom3 = [...staffAvgList].sort((a, b) => {
   return b.days - a.days
 }).slice(0, 3)
 
+
+const allStaffAvg = [...staffAvgList].sort((a, b) => {
+  if (b.avg !== a.avg) return b.avg - a.avg
+  if (b.total !== a.total) return b.total - a.total
+  return a.days - b.days
+})
+
   // Best supervisor: highest avg of their team's individual avgs
   const supMap = {}
   staffAvgList.forEach(({ supervisor, avg, total }) => {
@@ -60,5 +67,17 @@ const bottom3 = [...staffAvgList].sort((a, b) => {
     }))
     .sort((a, b) => b.avgProductivity - a.avgProductivity)[0] || null
 
-  return { top3, bottom3, bestSupervisor }
+// Full supervisor list for charts
+const supervisorList = Object.entries(supMap)
+  .map(([name, s]) => ({
+    name,
+    avgProductivity: parseFloat((s.avgs.reduce((a, b) => a + b, 0) / s.avgs.length).toFixed(2)),
+    totalTasks:      s.total,
+    teamSize:        s.teamSize,
+  }))
+  .sort((a, b) => b.avgProductivity - a.avgProductivity)
+
+const staffList = staffAvgList.sort((a, b) => b.avg - a.avg)
+
+return { top3, bottom3, bestSupervisor, supervisorList, staffList, allStaffAvg }
 }
