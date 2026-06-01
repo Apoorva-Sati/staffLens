@@ -32,7 +32,12 @@ function parseExcel(buffer, fileName) {
   // Parse every sheet; return first sheet as default `data`
   const allSheets = {};
   sheetNames.forEach((name) => {
-    allSheets[name] = XLSX.utils.sheet_to_json(workbook.Sheets[name]);
+    allSheets[name] = XLSX.utils.sheet_to_json(
+      workbook.Sheets[name],
+      {
+        raw: false, // converts dates/numbers to formatted strings
+      }
+    );
   });
 
   return {
@@ -47,7 +52,6 @@ function parseCSV(buffer, fileName) {
   const workbook = XLSX.read(buffer, { type: 'array' });
   const sheetName = workbook.SheetNames[0];
   const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-
   return {
     data,
     allSheets: { [sheetName]: data },

@@ -9,80 +9,83 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from 'recharts'
+
 import { useDashboard } from '../../context/DataContext'
 import CustomTooltip from '../CustomTooltip'
 
 const StaffConsistencyChart = () => {
-  const { data } = useDashboard()
+  const { stats, perfStats } = useDashboard()
 
-  if (!data || data.length === 0) return null
+  if (!perfStats?.staffList?.length) return null
 
-  const staffMap = {}
-
-  data.forEach((row) => {
-    const name = row.NAME
-    const closing = row['TOTAL CLOSING'] || 0
-    const date = row.Date
-
-    if (!name) return
-
-    if (!staffMap[name]) {
-      staffMap[name] = {
-        total: 0,
-        days: new Set(),
-      }
-    }
-
-    staffMap[name].total += closing
-
-    if (date) {
-      staffMap[name].days.add(date)
-    }
-  })
-
-  const chartData = Object.entries(staffMap).map(([name, s]) => ({
-    name,
-    x: s.days.size,
-    y: parseFloat((s.total / (s.days.size || 1)).toFixed(2)),
-    total: s.total,
+  // ── Build chart data from centralized stats ─────────────────────────
+  const chartData = perfStats.staffList.map((staff) => ({
+    name: staff.name,
+    x: staff.days,
+    y: Number(staff.avg),
+    total: Number(staff.total),
   }))
 
-  const avgDays = parseFloat(
-    (
-      chartData.reduce((sum, d) => sum + d.x, 0) /
-      chartData.length
-    ).toFixed(1)
-  )
+  // ── Average Working Days ────────────────────────────────────────────
+  const avgDays =
+    chartData.length > 0
+      ? Number(
+          (
+            chartData.reduce((sum, d) => sum + d.x, 0) /
+            chartData.length
+          ).toFixed(1)
+        )
+      : 0
 
-  const avgProd = parseFloat(
-    (
-      chartData.reduce((sum, d) => sum + d.y, 0) /
-      chartData.length
-    ).toFixed(2)
-  )
+  // ── Average Productivity ────────────────────────────────────────────
+  const avgProd =
+    chartData.length > 0
+      ? Number(
+          (
+            chartData.reduce((sum, d) => sum + d.y, 0) /
+            chartData.length
+          ).toFixed(2)
+        )
+      : 0
 
-  // 2. Define data mapping for your reusable tooltip
+  // ── Tooltip Config ──────────────────────────────────────────────────
   const tooltipItems = [
-    { label: 'Working Days', value: 'x' },
-    { label: 'Avg Productivity', value: 'y' },
-    { label: 'Total Tasks', value: 'total' }
+    {
+      label: 'Working Days',
+      value: 'x',
+    },
+    {
+      label: 'Avg Productivity',
+      value: 'y',
+    },
+    {
+      label: 'Total Tasks',
+      value: 'total',
+    },
   ]
 
   return (
-    <div className="rounded-2xl border border-(--border) bg-(--card-bg) p-5  bg-card  shadow-sm">
+    <div className="rounded-2xl border border-(--border) bg-(--card-bg) p-5 bg-card shadow-sm">
+
       <div className="mb-1 text-xs font-bold tracking-[1.5px] text-(--text-muted)">
         STAFF CONSISTENCY
       </div>
 
       <ResponsiveContainer width="100%" height={280}>
         <ScatterChart
-          margin={{ top: 10, right: 20, left: 0, bottom: 10 }}
+          margin={{
+            top: 10,
+            right: 20,
+            left: 0,
+            bottom: 10,
+          }}
         >
           <CartesianGrid
             strokeDasharray="3 3"
             stroke="var(--border)"
           />
 
+          {/* X Axis */}
           <XAxis
             type="number"
             dataKey="x"
@@ -102,6 +105,7 @@ const StaffConsistencyChart = () => {
             tickLine={false}
           />
 
+          {/* Y Axis */}
           <YAxis
             type="number"
             dataKey="y"
@@ -114,18 +118,18 @@ const StaffConsistencyChart = () => {
             tickLine={false}
           />
 
-          {/* 3. Call your global custom tooltip component */}
+          {/* Tooltip */}
           <Tooltip
             content={
-              <CustomTooltip 
-                title={(dataRow) => dataRow.name} 
-                items={tooltipItems} 
+              <CustomTooltip
+                title={(dataRow) => dataRow.name}
+                items={tooltipItems}
               />
             }
             cursor={{ strokeDasharray: '3 3' }}
           />
 
-          {/* Average Quadrant Lines */}
+          {/* Average Lines */}
           <ReferenceLine
             x={avgDays}
             stroke="var(--border)"
@@ -138,6 +142,7 @@ const StaffConsistencyChart = () => {
             strokeDasharray="4 4"
           />
 
+          {/* Scatter Points */}
           <Scatter
             data={chartData}
             fill="var(--primary)"
@@ -162,7 +167,7 @@ const StaffConsistencyChart = () => {
                     fill="var(--text-secondary)"
                     fontSize={10}
                   >
-                    {payload.name.split(' ')[0]}
+                    {payload.name?.split(' ')[0]}
                   </text>
                 </g>
               )

@@ -1,5 +1,15 @@
 import React from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from 'recharts'
+
 import { useDashboard } from '../../context/DataContext'
 import CustomTooltip from '../CustomTooltip'
 
@@ -10,59 +20,64 @@ const SHIFT_COLORS = {
 }
 
 const RoasterPerformance = () => {
-  const { data } = useDashboard()
-  if (!data || data.length === 0) return null
+  const { stats } = useDashboard()
 
-  // Group by ROASTER shift
-  const shiftMap = {}
-  data.forEach(row => {
-    const shift = row.ROASTER?.trim().toUpperCase()
-    const closing = row["TOTAL CLOSING"] || 0
-    const name = row.NAME
-    if (!shift) return
+  if (!stats?.roasterPerformanceData?.length) return null
 
-    if (!shiftMap[shift]) shiftMap[shift] = { total: 0, staff: new Set() }
-    shiftMap[shift].total += closing
-    if (name) shiftMap[shift].staff.add(name)
-  })
-
-  const order = ['MORNING', 'AFTERNOON', 'EVENING']
-  const chartData = order
-    .filter(s => shiftMap[s])
-    .map(shift => ({
-      shift,
-      total: shiftMap[shift].total,
-      avgPerStaff: parseFloat((shiftMap[shift].total / shiftMap[shift].staff.size).toFixed(2)),
-      staffCount: shiftMap[shift].staff.size,
-    }))
+  const chartData = stats.roasterPerformanceData
 
   return (
     <div className="card">
       <div className="text-xs font-bold tracking-[1.5px] text-(--text-muted) mb-1">
         ROASTER PERFORMANCE
       </div>
-      <div className="flex gap-4 mb-4">
-        {chartData.map(s => (
+
+      <div className="flex gap-4 mb-4 flex-wrap">
+        {chartData.map((s) => (
           <div key={s.shift} className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-sm" style={{ background: SHIFT_COLORS[s.shift] }} />
-            <span className="text-xs text-(--text-muted)">{s.shift} ({s.staffCount} staff)</span>
+            <div
+              className="w-2.5 h-2.5 rounded-sm"
+              style={{ background: SHIFT_COLORS[s.shift] }}
+            />
+
+            <span className="text-xs text-(--text-muted)">
+              {s.shift} ({s.staffCount} staff)
+            </span>
           </div>
         ))}
       </div>
+
       <ResponsiveContainer width="100%" height={220}>
-        <BarChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }} barSize={60}>
-          <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="var(--border)" />
+        <BarChart
+          data={chartData}
+          margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+          barSize={60}
+        >
+          <CartesianGrid
+            vertical={false}
+            strokeDasharray="3 3"
+            stroke="var(--border)"
+          />
+
           <XAxis
             dataKey="shift"
-            tick={{ fill: 'var(--text-secondary)', fontSize: 13 }}
+            tick={{
+              fill: 'var(--text-secondary)',
+              fontSize: 13,
+            }}
             axisLine={{ stroke: 'var(--border)' }}
             tickLine={false}
           />
+
           <YAxis
-            tick={{ fill: 'var(--text-muted)', fontSize: 11 }}
+            tick={{
+              fill: 'var(--text-muted)',
+              fontSize: 11,
+            }}
             axisLine={false}
             tickLine={false}
           />
+
           <Tooltip
             cursor={{ fill: 'rgba(255,255,255,0.03)' }}
             content={
@@ -70,7 +85,7 @@ const RoasterPerformance = () => {
                 items={[
                   {
                     label: 'Total Tasks',
-                    value: (_, payload) => payload[0]?.value,
+                    value: (_, payload) => payload?.[0]?.value ?? 0,
                   },
                   {
                     label: 'Avg / Staff',
@@ -79,13 +94,23 @@ const RoasterPerformance = () => {
                 ]}
               />
             }
-          />          <Bar
+          />
+
+          <Bar
             dataKey="total"
             radius={[4, 4, 0, 0]}
-            label={{ position: 'top', fill: 'var(--text-secondary)', fontSize: 12, fontWeight: 600 }}
+            label={{
+              position: 'top',
+              fill: 'var(--text-secondary)',
+              fontSize: 12,
+              fontWeight: 600,
+            }}
           >
-            {chartData.map(entry => (
-              <Cell key={entry.shift} fill={SHIFT_COLORS[entry.shift]} />
+            {chartData.map((entry) => (
+              <Cell
+                key={entry.shift}
+                fill={SHIFT_COLORS[entry.shift]}
+              />
             ))}
           </Bar>
         </BarChart>

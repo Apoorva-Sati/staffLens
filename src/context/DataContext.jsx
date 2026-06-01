@@ -21,6 +21,7 @@ export function DashboardProvider({ children }) {
   const stats = useMemo(() => computeDashboardStats(data), [data]);
   const perfStats   = useMemo(() => computePerformanceStats(data), [data]);
 
+
   return (
     <DashboardContext.Provider value={{ data, stats, perfStats, loading, error }}>
       {children}
