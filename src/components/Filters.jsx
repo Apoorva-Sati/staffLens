@@ -1,22 +1,24 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useDashboard } from '../context/DataContext'
 import MultiSelectDropdown from './MultiSelectDropdown'
 import Dropdown from './Dropdown'
 
 const Filters = ({
-  showMonths       = false,
-  showSupervisors  = false,
-  showPerformance  = false,
-  showSort         = false,
-  onFilterChange,          
+  showMonths      = false,
+  showSupervisors = false,
+  showPerformance = false,
+  showSort        = false,
 }) => {
-  const { data, selectedMonths, selectedSupervisors, setFilters } = useDashboard()
+  const {
+    data,
+    selectedMonths,
+    selectedSupervisors,
+    setFilters,
+    perfPerformance,
+    perfSort,
+    setPerfFilters,
+  } = useDashboard()
 
-  // Local-only state (not global — only Performance page uses these)
-  const [performance, setPerformance] = useState('All Performance')
-  const [sort,        setSort]        = useState('Name')
-
-  // ── Date parser ────────────────────────────────────────────────────
   const parseDate = (dateStr) => {
     if (!dateStr) return null
     const parts = String(dateStr).split('/')
@@ -27,6 +29,7 @@ const Filters = ({
     return isNaN(d.getTime()) ? null : d
   }
 
+  // Always built from raw data so options don't shrink when filtering
   const monthOptions = useMemo(() => {
     if (!data?.length) return []
     const months = data
@@ -52,39 +55,9 @@ const Filters = ({
     'Working Days ↓',
   ]
 
-  const notifyLocal = (updates = {}) => {
-    onFilterChange?.({ performance, sort, ...updates })
-  }
-
-  // ── Handlers ───────────────────────────────────────────────────────
-  const handleMonths = (vals) => {
-    setFilters({ months: vals })
-  }
-
-  const handleSupervisors = (vals) => {
-    setFilters({ supervisors: vals })
-  }
-
-  const handlePerformance = (val) => {
-    setPerformance(val)
-    notifyLocal({ performance: val })
-  }
-
-  const handleSort = (val) => {
-    setSort(val)
-    notifyLocal({ sort: val })
-  }
-
   const handleReset = () => {
     setFilters({ months: [], supervisors: [] })
-    setPerformance('All Performance')
-    setSort('Name')
-    onFilterChange?.({
-      months:      [],
-      supervisors: [],
-      performance: 'All Performance',
-      sort:        'Name',
-    })
+    setPerfFilters({ performance: 'All Performance', sort: 'Name' })
   }
 
   return (
@@ -95,7 +68,7 @@ const Filters = ({
           label="Months"
           options={monthOptions}
           selected={selectedMonths}
-          onChange={handleMonths}
+          onChange={(vals) => setFilters({ months: vals })}
         />
       )}
 
@@ -104,23 +77,23 @@ const Filters = ({
           label="Supervisors"
           options={supervisorOptions}
           selected={selectedSupervisors}
-          onChange={handleSupervisors}
+          onChange={(vals) => setFilters({ supervisors: vals })}
         />
       )}
 
       {showPerformance && (
         <Dropdown
-          label={performance}
+          label={perfPerformance}
           options={performanceOptions}
-          onSelect={handlePerformance}
+          onSelect={(val) => setPerfFilters({ performance: val })}
         />
       )}
 
       {showSort && (
         <Dropdown
-          label={sort}
+          label={perfSort}
           options={sortOptions}
-          onSelect={handleSort}
+          onSelect={(val) => setPerfFilters({ sort: val })}
         />
       )}
 

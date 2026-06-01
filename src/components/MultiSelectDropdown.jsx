@@ -1,5 +1,3 @@
-// src/components/MultiSelectDropdown.jsx
-
 import React, { useEffect, useRef, useState } from 'react'
 
 const MultiSelectDropdown = ({

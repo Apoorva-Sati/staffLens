@@ -10,18 +10,29 @@ export function DashboardProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState(null);
 
-  // ── Filter state ──────────────────────────────────────────────────
+  // ── Global filter state ───────────────────────────────────────────
   const [selectedMonths,      setSelectedMonths]      = useState([]);
   const [selectedSupervisors, setSelectedSupervisors] = useState([]);
 
+  // ── Performance page local filters (lifted so Header→Filters can write) ──
+  const [perfPerformance, setPerfPerformance] = useState('All Performance');
+  const [perfSort,        setPerfSort]        = useState('Name');
+
   useEffect(() => {
     loadPublicFile("/dashboard_dummy_data.xlsx")
-      .then(({ data }) => setData(data))
+      .then(({ data }) => {
+        const normalized = data.map(row => ({
+          ...row,
+          NAME:       row.NAME?.trim()       || row.NAME,
+          Supervisor: row.Supervisor?.trim() || row.Supervisor,
+          TEAM:       row.TEAM?.trim()       || row.TEAM,
+        }))
+        setData(normalized)
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
-  // ── Date parser (matches Filters.jsx MM/DD/YY logic) ─────────────
   const parseDate = (dateStr) => {
     if (!dateStr) return null;
     const parts = String(dateStr).split("/");
@@ -32,7 +43,6 @@ export function DashboardProvider({ children }) {
     return isNaN(d.getTime()) ? null : d;
   };
 
-  // ── Filtered data (drives everything else) ────────────────────────
   const filteredData = useMemo(() => {
     let rows = data;
 
@@ -40,10 +50,7 @@ export function DashboardProvider({ children }) {
       rows = rows.filter((row) => {
         const d = parseDate(row.Date);
         if (!d) return false;
-        const label = d.toLocaleString("default", {
-          month: "long",
-          year: "numeric",
-        });
+        const label = d.toLocaleString("default", { month: "long", year: "numeric" });
         return selectedMonths.includes(label);
       });
     }
@@ -57,28 +64,37 @@ export function DashboardProvider({ children }) {
     return rows;
   }, [data, selectedMonths, selectedSupervisors]);
 
-  // ── Stats recompute on filteredData ───────────────────────────────
-  const stats     = useMemo(() => computeDashboardStats(filteredData),    [filteredData]);
-  const perfStats = useMemo(() => computePerformanceStats(filteredData),  [filteredData]);
+  const rawStats  = useMemo(() => computeDashboardStats(data),         [data]);
+  const stats     = useMemo(() => computeDashboardStats(filteredData), [filteredData]);
+  const perfStats = useMemo(() => computePerformanceStats(filteredData), [filteredData]);
 
-  // ── Setters exposed to Filters ────────────────────────────────────
   const setFilters = useCallback(({ months, supervisors }) => {
     if (months      !== undefined) setSelectedMonths(months);
     if (supervisors !== undefined) setSelectedSupervisors(supervisors);
   }, []);
 
+  const setPerfFilters = useCallback(({ performance, sort }) => {
+    if (performance !== undefined) setPerfPerformance(performance);
+    if (sort        !== undefined) setPerfSort(sort);
+  }, []);
+
   return (
     <DashboardContext.Provider
       value={{
-        data,          
-        filteredData,  
+        data,
+        filteredData,
         stats,
         perfStats,
+        rawStats,
         loading,
         error,
         selectedMonths,
         selectedSupervisors,
         setFilters,
+        // performance page filters
+        perfPerformance,
+        perfSort,
+        setPerfFilters,
       }}
     >
       {children}

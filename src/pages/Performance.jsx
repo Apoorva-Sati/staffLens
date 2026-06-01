@@ -17,18 +17,8 @@ const TABS = [
 ]
 
 const Performance = () => {
-  const { perfStats, loading, error } = useDashboard()
-
+  const { perfStats, perfPerformance, perfSort, loading, error } = useDashboard()
   const [activeTab, setActiveTab] = useState('leaderboard')
-
-  // Local sort/performance filter state (driven by Filters via onFilterChange)
-  const [performance, setPerformance] = useState('All Performance')
-  const [sort,        setSort]        = useState('Name')
-
-  const handleFilterChange = ({ performance: p, sort: s }) => {
-    if (p !== undefined) setPerformance(p)
-    if (s !== undefined) setSort(s)
-  }
 
   if (loading) return <div className="flex h-full items-center justify-center"><Spinner /></div>
   if (error)   return <p className="p-4 text-red-500">Error: {error}</p>
@@ -62,11 +52,7 @@ const Performance = () => {
       )}
 
       {activeTab === 'staff' && (
-        <StaffTab
-          allStaffAvg={perfStats.allStaffAvg}
-          performance={performance}
-          sort={sort}
-        />
+        <StaffTab performance={perfPerformance} sort={perfSort} />
       )}
 
       {activeTab === 'team' && (
@@ -94,8 +80,7 @@ const StaffTab = ({ performance, sort }) => {
     if (!perfStats?.staffList) return []
     let list = [...perfStats.staffList]
 
-    const overallAvg =
-      list.reduce((s, p) => s + p.avg, 0) / (list.length || 1)
+    const overallAvg = list.reduce((s, p) => s + p.avg, 0) / (list.length || 1)
 
     if (performance === 'Above Average') {
       list = list.filter((p) => p.avg >= overallAvg)
@@ -104,23 +89,12 @@ const StaffTab = ({ performance, sort }) => {
     }
 
     switch (sort) {
-      case 'Name':
-        list.sort((a, b) => a.name.localeCompare(b.name))
-        break
-      case 'Tasks ↓':
-        list.sort((a, b) => b.total - a.total)
-        break
-      case 'Avg Productivity ↓':
-        list.sort((a, b) => b.avg - a.avg)
-        break
-      case 'Avg Productivity ↑':
-        list.sort((a, b) => a.avg - b.avg)
-        break
-      case 'Working Days ↓':
-        list.sort((a, b) => b.days - a.days)
-        break
-      default:
-        break
+      case 'Name':              list.sort((a, b) => a.name.localeCompare(b.name)); break
+      case 'Tasks ↓':          list.sort((a, b) => b.total - a.total);             break
+      case 'Avg Productivity ↓': list.sort((a, b) => b.avg - a.avg);               break
+      case 'Avg Productivity ↑': list.sort((a, b) => a.avg - b.avg);               break
+      case 'Working Days ↓':   list.sort((a, b) => b.days - a.days);               break
+      default: break
     }
 
     return list

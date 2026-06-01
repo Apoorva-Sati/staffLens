@@ -9,7 +9,7 @@ const Dropdown = ({ label, options, onSelect }) => {
       {/* Trigger button — fixed width, truncate long labels */}
       <button
         onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center justify-between gap-1.5 px-3 py-1.5 rounded-full text-[13px] cursor-pointer bg-[var(--card-bg)] text-[var(--text-secondary)] border border-[var(--border)] whitespace-nowrap overflow-hidden"
+        className="w-full flex items-center justify-between gap-1.5 px-3 py-1.5 rounded-full text-[13px] cursor-pointer bg-(--card-bg) text-(--text-secondary) border border-(--border) whitespace-nowrap overflow-hidden"
       >
         <span className="truncate">{label}</span>
         <svg className="shrink-0" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
