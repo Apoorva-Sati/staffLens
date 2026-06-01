@@ -1,15 +1,14 @@
 import React from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { useDashboard } from '../../context/DataContext'
-// 1. Import your reusable CustomTooltip component
 import CustomTooltip from '../CustomTooltip' 
 
-const StaffProductivityChart = () => {
+const StaffProductivityChart = ({ overrideList }) => {
   const { perfStats } = useDashboard()
-
   if (!perfStats) return null
 
-  const chartData = perfStats.staffList?.map(p => ({ name: p.name, avg: p.avg })) || []
+  const sourceList = overrideList ?? perfStats.staffList ?? []
+  const chartData = sourceList.map(p => ({ name: p.name, avg: p.avg }))
   const maxAvg = chartData[0]?.avg || 1
   const minAvg = chartData[chartData.length - 1]?.avg || 0
 
