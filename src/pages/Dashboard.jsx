@@ -35,11 +35,6 @@ const Dashboard = () => {
   return (
     <div className="space-y-6 p-4">
 
-      {/* Top Section */}
-      {/* Change justify-end to justify-start whenever you want left alignment */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-end">
-        <Filters />
-      </div>
 
       {/* Cards Section */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">

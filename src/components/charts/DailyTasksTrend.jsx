@@ -34,7 +34,7 @@ const DailyTasksTrend = () => {
       </div>
 
       <div className="h-64 w-full">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" >
           <LineChart
             data={chartData}
             margin={{ top: 10, right: 20, left: 0, bottom: 5 }}
