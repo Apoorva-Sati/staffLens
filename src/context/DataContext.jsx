@@ -6,26 +6,26 @@ import { computePerformanceStats } from "../utils/performanceStats";
 const DashboardContext = createContext(null);
 
 export function DashboardProvider({ children }) {
-  const [data, setData]       = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(null);
+  const [error, setError] = useState(null);
 
   // ── Global filter state ───────────────────────────────────────────
-  const [selectedMonths,      setSelectedMonths]      = useState([]);
+  const [selectedMonths, setSelectedMonths] = useState([]);
   const [selectedSupervisors, setSelectedSupervisors] = useState([]);
-
+  const [activeTab, setActiveTab] = useState('leaderboard')
   // ── Performance page local filters (lifted so Header→Filters can write) ──
   const [perfPerformance, setPerfPerformance] = useState('All Performance');
-  const [perfSort,        setPerfSort]        = useState('Name');
+  const [perfSort, setPerfSort] = useState('Name');
 
   useEffect(() => {
     loadPublicFile("/dashboard_dummy_data.xlsx")
       .then(({ data }) => {
         const normalized = data.map(row => ({
           ...row,
-          NAME:       row.NAME?.trim()       || row.NAME,
+          NAME: row.NAME?.trim() || row.NAME,
           Supervisor: row.Supervisor?.trim() || row.Supervisor,
-          TEAM:       row.TEAM?.trim()       || row.TEAM,
+          TEAM: row.TEAM?.trim() || row.TEAM,
         }))
         setData(normalized)
       })
@@ -64,18 +64,18 @@ export function DashboardProvider({ children }) {
     return rows;
   }, [data, selectedMonths, selectedSupervisors]);
 
-  const rawStats  = useMemo(() => computeDashboardStats(data),         [data]);
-  const stats     = useMemo(() => computeDashboardStats(filteredData), [filteredData]);
+  const rawStats = useMemo(() => computeDashboardStats(data), [data]);
+  const stats = useMemo(() => computeDashboardStats(filteredData), [filteredData]);
   const perfStats = useMemo(() => computePerformanceStats(filteredData), [filteredData]);
 
   const setFilters = useCallback(({ months, supervisors }) => {
-    if (months      !== undefined) setSelectedMonths(months);
+    if (months !== undefined) setSelectedMonths(months);
     if (supervisors !== undefined) setSelectedSupervisors(supervisors);
   }, []);
 
   const setPerfFilters = useCallback(({ performance, sort }) => {
     if (performance !== undefined) setPerfPerformance(performance);
-    if (sort        !== undefined) setPerfSort(sort);
+    if (sort !== undefined) setPerfSort(sort);
   }, []);
 
   return (
@@ -91,10 +91,11 @@ export function DashboardProvider({ children }) {
         selectedMonths,
         selectedSupervisors,
         setFilters,
-        // performance page filters
         perfPerformance,
         perfSort,
         setPerfFilters,
+        activeTab,
+        setActiveTab,
       }}
     >
       {children}

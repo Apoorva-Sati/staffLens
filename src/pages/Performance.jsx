@@ -8,6 +8,7 @@ import DonutChart from '../components/charts/DonutChart'
 import SubSkillBreakdown from '../components/charts/SubSkillBreakdown'
 import StaffConsistencyChart from '../components/charts/StaffConsistencyChart'
 import TeamLeaderboard from '../components/charts/TeamLeaderboard'
+import Dropdown from '../components/Dropdown'
 
 const TABS = [
   { id: 'leaderboard', label: 'Leaderboard' },
@@ -17,8 +18,7 @@ const TABS = [
 ]
 
 const Performance = () => {
-  const { perfStats, perfPerformance, perfSort, loading, error } = useDashboard()
-  const [activeTab, setActiveTab] = useState('leaderboard')
+  const { perfStats, loading, error,activeTab, setActiveTab } = useDashboard()
 
   if (loading) return <div className="flex h-full items-center justify-center"><Spinner /></div>
   if (error)   return <p className="p-4 text-red-500">Error: {error}</p>
@@ -51,9 +51,7 @@ const Performance = () => {
         />
       )}
 
-      {activeTab === 'staff' && (
-        <StaffTab performance={perfPerformance} sort={perfSort} />
-      )}
+      {activeTab === 'staff' && <StaffTab />}
 
       {activeTab === 'team' && (
         <div className="grid grid-cols-2 gap-4 items-start">
@@ -73,8 +71,17 @@ const Performance = () => {
   )
 }
 
-const StaffTab = ({ performance, sort }) => {
-  const { perfStats } = useDashboard()
+const StaffTab = () => {
+  const { perfStats, perfPerformance, perfSort, setPerfFilters, activeTab, setActiveTab } = useDashboard()
+
+  const performanceOptions = ['All Performance', 'Above Average', 'Below Average']
+  const sortOptions = [
+    'Name',
+    'Tasks ↓',
+    'Avg Productivity ↓',
+    'Avg Productivity ↑',
+    'Working Days ↓',
+  ]
 
   const filtered = useMemo(() => {
     if (!perfStats?.staffList) return []
@@ -82,26 +89,27 @@ const StaffTab = ({ performance, sort }) => {
 
     const overallAvg = list.reduce((s, p) => s + p.avg, 0) / (list.length || 1)
 
-    if (performance === 'Above Average') {
+    if (perfPerformance === 'Above Average') {
       list = list.filter((p) => p.avg >= overallAvg)
-    } else if (performance === 'Below Average') {
+    } else if (perfPerformance === 'Below Average') {
       list = list.filter((p) => p.avg < overallAvg)
     }
 
-    switch (sort) {
-      case 'Name':              list.sort((a, b) => a.name.localeCompare(b.name)); break
-      case 'Tasks ↓':          list.sort((a, b) => b.total - a.total);             break
-      case 'Avg Productivity ↓': list.sort((a, b) => b.avg - a.avg);               break
-      case 'Avg Productivity ↑': list.sort((a, b) => a.avg - b.avg);               break
-      case 'Working Days ↓':   list.sort((a, b) => b.days - a.days);               break
+    switch (perfSort) {
+      case 'Name':                list.sort((a, b) => a.name.localeCompare(b.name)); break
+      case 'Tasks ↓':             list.sort((a, b) => b.total - a.total);            break
+      case 'Avg Productivity ↓':  list.sort((a, b) => b.avg - a.avg);               break
+      case 'Avg Productivity ↑':  list.sort((a, b) => a.avg - b.avg);               break
+      case 'Working Days ↓':      list.sort((a, b) => b.days - a.days);             break
       default: break
     }
 
     return list
-  }, [perfStats, performance, sort])
+  }, [perfStats, perfPerformance, perfSort])
 
-  return (
+    return (
     <div className="flex flex-col gap-4">
+      {/* no dropdowns here anymore */}
       <StaffProductivityChart overrideList={filtered} />
       <StaffConsistencyChart />
     </div>
