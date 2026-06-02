@@ -1,0 +1,134 @@
+{
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "performance": "الأداء"
+  },
+  "header": {
+    "title": "لوحة إنتاجية - AAN",
+    "upload": "رفع",
+    "resetFilters": "إعادة تعيين الفلاتر"
+  },
+  "filters": {
+    "months": "الأشهر",
+    "supervisors": "المشرفون",
+    "allPerformance": "جميع مستويات الأداء",
+    "aboveAverage": "فوق المتوسط",
+    "belowAverage": "تحت المتوسط",
+    "sortName": "الاسم",
+    "sortTasksDesc": "المهام ↓",
+    "sortAvgDesc": "متوسط الإنتاجية ↓",
+    "sortAvgAsc": "متوسط الإنتاجية ↑",
+    "sortDaysDesc": "أيام العمل ↓"
+  },
+  "cards": {
+    "totalTasks": "إجمالي المهام",
+    "completedTasks": "المهام المنجزة",
+    "activeStaff": "الموظفون النشطون",
+    "employees": "الموظفون",
+    "overallAvg": "المتوسط العام",
+    "avgTasksDay": "متوسط المهام / يوم",
+    "topPerformer": "أفضل موظف",
+    "avgDay": "متوسط/يوم",
+    "avgWorkingDays": "متوسط أيام العمل",
+    "perStaff": "لكل موظف"
+  },
+  "charts": {
+    "dailyTasksTrend": "اتجاه المهام اليومية",
+    "roasterPerformance": "أداء الوردية",
+    "teamLeaderboard": "ترتيب الفرق",
+    "subSkillBreakdown": "توزيع المهارات الفرعية",
+    "staffConsistency": "انتظام أداء الموظفين",
+    "avgProductivityByStaff": "متوسط الإنتاجية لكل موظف",
+    "supervisorTeamAverage": "متوسط فريق المشرف",
+    "tasksBySupervisor": "المهام حسب المشرف",
+    "workingDays": "أيام العمل",
+    "totalTasks": "إجمالي المهام",
+    "avgPerStaff": "المتوسط / موظف",
+    "staffCount": "عدد الموظفين",
+    "avgProductivity": "متوسط الإنتاجية",
+    "supervisorAvg": "متوسط المشرف",
+    "share": "النسبة"
+  },
+  "shifts": {
+    "MORNING": "الصباح",
+    "AFTERNOON": "المساء",
+    "EVENING": "الليل"
+  },
+  "tabs": {
+    "leaderboard": "لوحة الترتيب",
+    "staff": "تحليل الموظفين",
+    "team": "الفرق والمهارات",
+    "supervisors": "المشرفون"
+  },
+  "leaderboard": {
+    "title": "لوحة ترتيب الأداء",
+    "top3": "أفضل 3 موظفين",
+    "bottom3": "أدنى 3 موظفين",
+    "teamSummary": "ملخص الفريق وإحصائيات المشرف",
+    "bestSupervisor": "أفضل مشرف",
+    "selectedSupervisor": "المشرف المختار",
+    "selectedSupervisors": "المشرفون المختارون",
+    "combinedAvgProductivity": "متوسط الإنتاجية المجمع",
+    "averageProductivity": "متوسط الإنتاجية",
+    "totalTasksCompleted": "إجمالي المهام المنجزة",
+    "teamSize": "حجم الفريق",
+    "noSupervisorData": "لا تتوفر بيانات المشرف"
+  },
+  "upload": {
+    "title": "رفع البيانات",
+    "uploadNew": "رفع جديد",
+    "history": "السجل",
+    "historyCount": "السجل ({{count}}/5)",
+    "dropzone": {
+      "dropHere": "أسقط ملفك هنا، أو",
+      "browse": "تصفح",
+      "supported": "يدعم .xlsx و .xls و .csv",
+      "processing": "جارٍ معالجة الملف…"
+    },
+    "status": {
+      "usingUploaded": "يستخدم الملف المرفوع",
+      "usingDefault": "يستخدم ملف البيانات الافتراضي",
+      "unknown": "غير معروف",
+      "resetToDefault": "إعادة تعيين للافتراضي"
+    },
+    "errors": {
+      "unsupportedType": "نوع ملف غير مدعوم: .{{ext}}. يرجى رفع .xlsx أو .xls أو .csv",
+      "emptyFile": "الملف يبدو فارغاً أو غير قابل للقراءة",
+      "parseFailed": "فشل في تحليل الملف",
+      "networkError": "خطأ في الشبكة – يرجى المحاولة مرة أخرى",
+      "invalidPassword": "كلمة المرور غير صحيحة"
+    },
+    "history_list": {
+      "noHistory": "لا يوجد سجل رفع بعد",
+      "latest": "الأحدث",
+      "active": "نشط",
+      "restore": "استعادة هذا الإصدار",
+      "delete": "حذف هذا الإدخال"
+    }
+  },
+  "password": {
+    "title": "كلمة مرور الرفع مطلوبة",
+    "description": "أدخل كلمة مرور المسؤول لرفع ملفات البيانات",
+    "placeholder": "أدخل كلمة المرور…",
+    "cancel": "إلغاء",
+    "continue": "متابعة",
+    "verifying": "جارٍ التحقق…"
+  },
+  "performance": {
+    "leaderboard": "لوحة الترتيب",
+    "staffAnalysis": "تحليل الموظفين",
+    "teamSkills": "الفرق والمهارات",
+    "supervisors": "المشرفون"
+  },
+  "loading": "جارٍ التحميل…",
+  "error": "خطأ: {{message}}",
+  "language": {
+    "en": "الإنجليزية",
+    "ar": "العربية",
+    "switchLanguage": "تغيير اللغة"
+  },
+  "dates": {
+    "format": "dd/MM/yyyy",
+    "locale": "ar-SA"
+  }
+}

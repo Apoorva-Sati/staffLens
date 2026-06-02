@@ -1,23 +1,29 @@
+/* index.css — updated with Arabic font + RTL utilities */
+
+/* ── Arabic fonts (Cairo + Noto Sans Arabic as fallback) ──────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
 :root {
   /* --- LIGHT MODE (Clean, Professional Off-White & Gray) --- */
-  --text: #636363;            /* e& Gray for body text */
-  --text-h: #08060d;          /* High contrast dark for headings */
-  --bg: #f8f9fa;              /* Soft off-white canvas background */
-  --border: #e6e6dc;          /* e& Beige for clean, subtle borders */
-  --code-bg: #ffffff;         /* Pure white container cards */
-  
-  /* e& Red used strictly as a 10% accent */
-  --accent: #e00800;          
-  --accent-bg: rgba(224, 8, 0, 0.08);   /* Light red tint for active hover/states */
-  --accent-border: rgba(224, 8, 0, 0.4); /* Subtle red border outline */
-  --social-bg: rgba(230, 230, 220, 0.5); /* Neutral beige transparent background */
-  
+  --text: #636363;
+  --text-h: #08060d;
+  --bg: #f8f9fa;
+  --border: #e6e6dc;
+  --code-bg: #ffffff;
+
+  --accent: #e00800;
+  --accent-bg: rgba(224, 8, 0, 0.08);
+  --accent-border: rgba(224, 8, 0, 0.4);
+  --social-bg: rgba(230, 230, 220, 0.5);
+
   --shadow:
-    rgba(0, 0, 0, 0.05) 0 10px 15px -3px, rgba(0, 0, 0, 0.02) 0 4px 6px -2px;
+    rgba(0, 0, 0, 0.05) 0 10px 15px -3px,
+    rgba(0, 0, 0, 0.02) 0 4px 6px -2px;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans-ar: 'Cairo', 'Noto Sans Arabic', sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
@@ -36,23 +42,30 @@
   }
 }
 
+/* ── RTL root overrides ──────────────────────────────────────────────────── */
+:root[dir="rtl"],
+[dir="rtl"] {
+  font-family: var(--sans-ar);
+  letter-spacing: 0;           /* Arabic doesn't need letter-spacing */
+  line-height: 1.7;            /* slightly more generous for Arabic glyphs */
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
-    /* --- DARK MODE (Premium Matte Black & Charcoal Foundation) --- */
-    --text: #9ca3af;          /* Soft gray for comfortable data reading */
-    --text-h: #ffffff;        /* Pure crisp white for high-priority KPIs and titles */
-    --bg: #121214;            /* Deep matte black background canvas */
-    --border: #2b2d31;        /* Dark slate gray to divide rows/columns cleanly */
-    --code-bg: #1e1f22;       /* Elevated dark charcoal for dashboard data cards */
-    
-    /* e& Red accent - neon pop against the dark gray */
-    --accent: #e00800;        
-    --accent-bg: rgba(224, 8, 0, 0.15);   /* Glowing dark-red hue for active selections */
-    --accent-border: rgba(224, 8, 0, 0.6); /* Defined red accent border */
-    --social-bg: rgba(43, 45, 49, 0.5);   /* Semi-transparent dark slate */
-    
+    --text: #9ca3af;
+    --text-h: #ffffff;
+    --bg: #121214;
+    --border: #2b2d31;
+    --code-bg: #1e1f22;
+
+    --accent: #e00800;
+    --accent-bg: rgba(224, 8, 0, 0.15);
+    --accent-border: rgba(224, 8, 0, 0.6);
+    --social-bg: rgba(43, 45, 49, 0.5);
+
     --shadow:
-      rgba(0, 0, 0, 0.5) 0 10px 15px -3px, rgba(0, 0, 0, 0.3) 0 4px 6px -2px;
+      rgba(0, 0, 0, 0.5) 0 10px 15px -3px,
+      rgba(0, 0, 0, 0.3) 0 4px 6px -2px;
   }
 
   #social .button-icon {
@@ -80,6 +93,12 @@ h2 {
   color: var(--text-h);
 }
 
+/* Arabic headings get Cairo */
+[dir="rtl"] h1,
+[dir="rtl"] h2 {
+  font-family: var(--sans-ar);
+}
+
 h1 {
   font-size: 56px;
   letter-spacing: -1.68px;
@@ -89,6 +108,7 @@ h1 {
     margin: 20px 0;
   }
 }
+
 h2 {
   font-size: 24px;
   line-height: 118%;
@@ -98,6 +118,13 @@ h2 {
     font-size: 20px;
   }
 }
+
 p {
   margin: 0;
 }
+
+/* ── RTL utility helpers (complement Tailwind logical properties) ─────────── */
+
+/* Hide scrollbar while keeping scrollability */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

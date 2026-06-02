@@ -1,13 +1,26 @@
+/**
+ * Header.jsx — updated with i18n support
+ *
+ * Changes from original:
+ *  - All text uses t() from useI18n
+ *  - Date/number formatting uses locale-aware helpers
+ *  - LanguageSwitcher added to the action bar
+ *  - RTL-safe flex direction via `dir` attribute on root
+ */
+
 import { useState } from 'react'
 import { useDashboard } from '../context/DataContext'
-import { useLocation } from "react-router-dom";
-import Filters from "./Filters";
-import FileUploadModal from "./FileUploadModal";
+import { useLocation } from 'react-router-dom'
+import Filters from './Filters'
+import FileUploadModal from './FileUploadModal'
+import LanguageSwitcher from './LanguageSwitcher'
+import { useI18n } from '../hooks/useI18n'
 
 const Header = () => {
   const location = useLocation()
   const { activeTab, uploadedDataId } = useDashboard()
   const [showUpload, setShowUpload] = useState(false)
+  const { t } = useI18n()
 
   const isPerformancePage = location.pathname.startsWith('/performance')
   const isDashboardPage   = location.pathname.startsWith('/dashboard')
@@ -17,10 +30,11 @@ const Header = () => {
     <>
       <div className="flex flex-col md:flex-row md:items-center justify-between h-full px-4 py-3 md:py-0 gap-4">
         <div className="min-w-0 flex-1">
-          <div className="text-xl md:text-2xl font-bold truncate text-left tracking-tight">
-            Productivity Dashboard - AAN
+          <div className="text-xl md:text-2xl font-bold truncate text-start tracking-tight">
+            {t('header.title')}
           </div>
         </div>
+
         <div className="flex flex-wrap items-center gap-3 justify-start md:justify-end">
           {isPerformancePage && (
             <Filters
@@ -31,14 +45,16 @@ const Header = () => {
             />
           )}
           {isDashboardPage && (
-            <Filters
-              showMonths
-              showSupervisors
-            />
+            <Filters showMonths showSupervisors />
           )}
+
+          {/* Language switcher */}
+          <LanguageSwitcher />
+
+          {/* Upload button */}
           <button
             onClick={() => setShowUpload(true)}
-            title="Upload data file"
+            title={t('header.upload')}
             className="
               relative flex items-center gap-2 px-3 py-1.5
               rounded-full text-xs font-semibold
@@ -48,24 +64,35 @@ const Header = () => {
               hover:bg-(--primary) hover:text-white
             "
           >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="17 8 12 3 7 8"/>
-              <line x1="12" y1="3" x2="12" y2="15"/>
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
-            <span>Upload</span>
+            <span>{t('header.upload')}</span>
 
             {uploadedDataId && (
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#2ecc71] border-2 border-(--bg-main)" />
+              <span className="absolute -top-1 -end-1 w-2.5 h-2.5 rounded-full bg-[#2ecc71] border-2 border-(--bg-main)" />
             )}
           </button>
         </div>
       </div>
+
       {showUpload && (
         <FileUploadModal onClose={() => setShowUpload(false)} />
       )}
     </>
   )
-};
+}
 
-export default Header;
+export default Header

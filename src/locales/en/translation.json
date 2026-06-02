@@ -1,0 +1,136 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "performance": "Performance"
+  },
+  "header": {
+    "title": "Productivity Dashboard - AAN",
+    "upload": "Upload",
+    "resetFilters": "Reset Filters"
+  },
+  "filters": {
+    "months": "Months",
+    "supervisors": "Supervisors",
+    "allPerformance": "All Performance",
+    "aboveAverage": "Above Average",
+    "belowAverage": "Below Average",
+    "sortName": "Name",
+    "sortTasksDesc": "Tasks ↓",
+    "sortAvgDesc": "Avg Productivity ↓",
+    "sortAvgAsc": "Avg Productivity ↑",
+    "sortDaysDesc": "Working Days ↓"
+  },
+  "cards": {
+    "totalTasks": "Total Tasks",
+    "completedTasks": "Completed Tasks",
+    "activeStaff": "Active Staff",
+    "employees": "Employees",
+    "overallAvg": "Overall Avg",
+    "avgTasksDay": "Avg Tasks / Day",
+    "topPerformer": "Top Performer",
+    "avgDay": "Avg/Day",
+    "avgWorkingDays": "Avg Working Days",
+    "perStaff": "Per Staff"
+  },
+  "charts": {
+    "dailyTasksTrend": "Daily Tasks Trend",
+    "roasterPerformance": "Roaster Performance",
+    "teamLeaderboard": "Team Leaderboard",
+    "subSkillBreakdown": "Sub Skill Breakdown",
+    "staffConsistency": "Staff Consistency",
+    "avgProductivityByStaff": "Average Productivity by Staff",
+    "supervisorTeamAverage": "Supervisor Team Average",
+    "tasksBySupervisor": "Tasks by Supervisor",
+    "workingDays": "Working Days",
+    "totalTasks": "Total Tasks",
+    "avgPerStaff": "Avg / Staff",
+    "staffCount": "Staff Count",
+    "avgProductivity": "Avg Productivity",
+    "supervisorAvg": "Supervisor Avg",
+    "share": "Share"
+  },
+  "shifts": {
+    "MORNING": "Morning",
+    "AFTERNOON": "Afternoon",
+    "EVENING": "Evening"
+  },
+  "tabs": {
+    "leaderboard": "Leaderboard",
+    "staff": "Staff Analysis",
+    "team": "Team & Skills",
+    "supervisors": "Supervisors"
+  },
+  "leaderboard": {
+    "title": "Performance Leaderboards",
+    "top3": "Top 3 Performers",
+    "bottom3": "Bottom 3 Performers",
+    "teamSummary": "Team Summary & Supervisor Stats",
+    "bestSupervisor": "Best Supervisor",
+    "selectedSupervisor": "Selected Supervisor",
+    "selectedSupervisors": "Selected Supervisors",
+    "combinedAvgProductivity": "Combined Avg Productivity",
+    "averageProductivity": "Average Productivity",
+    "totalTasksCompleted": "Total Tasks Completed",
+    "teamSize": "Team Size",
+    "noSupervisorData": "No supervisor data available"
+  },
+  "upload": {
+    "title": "Data Upload",
+    "uploadNew": "Upload New",
+    "history": "History",
+    "historyCount": "History ({{count}}/5)",
+    "dropzone": {
+      "dropHere": "Drop your file here, or",
+      "browse": "browse",
+      "supported": ".xlsx, .xls, .csv supported",
+      "processing": "Processing file…"
+    },
+    "status": {
+      "usingUploaded": "Using uploaded file",
+      "usingDefault": "Using default public data file",
+      "unknown": "unknown",
+      "resetToDefault": "Reset to default"
+    },
+    "errors": {
+      "unsupportedType": "Unsupported file type: .{{ext}}. Please upload .xlsx, .xls, or .csv",
+      "emptyFile": "File appears empty or unreadable",
+      "parseFailed": "Failed to parse file",
+      "networkError": "Network error – please try again",
+      "invalidPassword": "Invalid password"
+    },
+    "history_list": {
+      "noHistory": "No upload history yet",
+      "latest": "latest",
+      "active": "active",
+      "restore": "Restore this version",
+      "delete": "Delete this entry"
+    }
+  },
+  "password": {
+    "title": "Upload Password Required",
+    "description": "Enter the admin password to upload data files",
+    "placeholder": "Enter password…",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "verifying": "Verifying…"
+  },
+  "performance": {
+    "leaderboard": "Leaderboard",
+    "staffAnalysis": "Staff Analysis",
+    "teamSkills": "Team & Skills",
+    "supervisors": "Supervisors"
+  },
+  "loading": "Loading…",
+  "error": "Error: {{message}}",
+  "language": {
+    "en": "English",
+    "ar": "Arabic",
+    "switchLanguage": "Switch Language"
+  },
+  "dates": {
+    "format": "MM/dd/yyyy",
+    "locale": "en-IN"
+  }
+
+  
+}
