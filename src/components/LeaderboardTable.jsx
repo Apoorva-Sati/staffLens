@@ -56,7 +56,6 @@ const StatRow = ({ label, value, bar, icons }) => (
     </div>
 )
 
-// ── Supervisor mini-card for multi-select mode ─────────────────────────────
 const SupervisorPill = ({ name }) => (
     <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-(--bg-main) border border-(--border)">
         <div className="w-6 h-6 rounded-full bg-(--primary-dark) border border-(--primary) flex items-center justify-center text-[10px] font-bold text-white shrink-0">
@@ -72,33 +71,24 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
     const { stats, perfStats, rawStats, selectedSupervisors } = useDashboard()
     const totalTasks = stats?.totalTasks || 0
 
-    // ── Determine which supervisors to show ────────────────────────────────
     const allSupervisors = perfStats?.supervisorList || []
-
-    // If supervisors are selected in filter, show those; otherwise show best
     const isFiltered = selectedSupervisors.length > 0
 
-    // Build display list: filtered selection or just the best one
     const displaySupervisors = isFiltered
         ? allSupervisors.filter(s => selectedSupervisors.includes(s.name))
         : bestSupervisor
             ? [bestSupervisor]
             : []
 
-    // Primary supervisor shown in the main card (first/best of selection)
     const primarySup = displaySupervisors[0] || null
-
-    // Extra supervisors when multiple selected
     const extraSups = displaySupervisors.slice(1)
 
-    // ── Card label logic ───────────────────────────────────────────────────
     const cardLabel = isFiltered
         ? selectedSupervisors.length === 1
             ? 'SELECTED SUPERVISOR'
             : `SELECTED SUPERVISORS`
         : 'BEST SUPERVISOR'
 
-    // ── Aggregated stats across all selected supervisors ──────────────────
     const aggregated = displaySupervisors.reduce(
         (acc, s) => ({
             totalTasks: acc.totalTasks + s.totalTasks,
@@ -114,14 +104,12 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
     const displayTeamSize = displaySupervisors.length > 0 ? aggregated.teamSize : '—'
 
     return (
-        <div className="grid grid-cols-[1fr_auto] gap-4 items-start">
-
-            {/* LEFT — Leaderboard */}
-            <div className="card">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4 items-start w-full">
+            <div className="card w-full">
                 <div className="text-xs font-bold tracking-[1.5px] text-(--text-muted) mb-5">
                     PERFORMANCE LEADERBOARDS
                 </div>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                         <div className="text-[11px] font-bold tracking-widest text-[#2ecc71] mb-3">TOP 3 PERFORMERS</div>
                         <div className="flex flex-col gap-2">
@@ -140,16 +128,12 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
                     </div>
                 </div>
             </div>
-
-            {/* RIGHT — Supervisor card */}
-            <div className="bg-card border border-(--border) rounded-xl p-5 shadow-sm min-w-60">
+            <div className="bg-card border border-(--border) rounded-xl p-5 shadow-sm w-full lg:min-w-60 lg:w-auto">
                 <div className="text-xs font-bold tracking-[1.5px] text-(--text-muted) mb-5">
                     TEAM SUMMARY & SUPERVISOR STATS
                 </div>
-
                 {primarySup ? (
                     <>
-                        {/* Supervisor identity section */}
                         <div className="flex items-center gap-3 mb-4 pb-4 border-b border-(--border)">
                             <div className="w-13 h-13 rounded-full bg-(--primary-dark) border-2 border-(--primary) flex items-center justify-center text-lg font-bold text-white shrink-0">
                                 {getInitials(primarySup.name)}
@@ -161,8 +145,6 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
                                 <div className="text-base font-bold text-(--text-main) truncate">
                                     {primarySup.name}
                                 </div>
-
-                                {/* Extra supervisors as pills */}
                                 {extraSups.length > 0 && (
                                     <div className="flex flex-wrap gap-1.5 mt-2">
                                         {extraSups.slice(0, 2).map(s => (
@@ -179,14 +161,14 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
                                 )}
                             </div>
                         </div>
-
-                        {/* Stats */}
-                        <div className="flex items-center justify-between mb-5 text-left">
+                        <div className="flex items-center justify-between mb-5 text-left gap-4">
                             <StatRow
                                 label={isFiltered && displaySupervisors.length > 1 ? 'COMBINED AVG PRODUCTIVITY' : 'AVERAGE PRODUCTIVITY'}
                                 value={displayAvg}
                             />
-                            <ChartImage />
+                            <div className="shrink-0">
+                                <ChartImage />
+                            </div>
                         </div>
 
                         <StatRow
@@ -212,4 +194,4 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
     )
 }
 
-export default LeaderboardTable
+export default LeaderboardTable;

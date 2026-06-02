@@ -9,23 +9,22 @@ import PerformanceReport from "./pages/Performance";
 function App() {
   return (
     <DashboardProvider>
-      <div className="flex flex-col h-screen">
-        <div className="flex h-16">
-          <div className="w-64 flex items-center justify-center">
+      <div className="flex flex-col md:flex-row md:h-screen w-full bg-(--bg-main) text-white">
+        <div className="w-full md:w-64 flex flex-col border-b md:border-b-0 md:border-r border-(--border) shrink-0">
+          <div className="h-16 flex items-center px-6 justify-between md:justify-start ">
             <img
               src="/Logo.png"
               alt="Logo"
-              className="w-40 h-auto"/>
+              className="w-32 md:w-40 h-auto"
+            />
           </div>
-          <div className="flex-1">
-            <Header/>
-          </div>
+          <Navbar />
         </div>
-        <div className="flex flex-1 overflow-hidden">
-          <div className="w-64">
-            <Navbar/>
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+          <div className="md:h-16 border-b border-(--border)">
+            <Header />
           </div>
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto p-4 md:p-6">
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
@@ -33,6 +32,7 @@ function App() {
             </Routes>
           </div>
         </div>
+
       </div>
     </DashboardProvider>
   );

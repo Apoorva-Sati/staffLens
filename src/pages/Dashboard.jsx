@@ -1,11 +1,9 @@
 import React from 'react'
-
 import Card from '../components/Card'
 import Spinner from '../components/Spinner'
 import Filters from '../components/Filters'
 import DailyTasksTrend from '../components/charts/DailyTasksTrend'
 import RoasterPerformance from '../components/charts/RoasterPerformance'
-
 import { useDashboard } from '../context/DataContext'
 import { getCardHeadings } from '../constants/CardHeadings'
 
@@ -34,9 +32,6 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6 p-4">
-
-
-      {/* Cards Section */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
         {cards.map((card, index) => (
           <Card
@@ -48,20 +43,13 @@ const Dashboard = () => {
           />
         ))}
       </div>
-
-      {/* Reports Section */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-
-        {/* Daily Trend */}
         <div className="min-w-0">
           <DailyTasksTrend />
         </div>
-
-        {/* Roaster Performance */}
         <div className="min-w-0">
           <RoasterPerformance />
         </div>
-
       </div>
     </div>
   )

@@ -29,7 +29,6 @@ const Filters = ({
     return isNaN(d.getTime()) ? null : d
   }
 
-  // Always built from raw data so options don't shrink when filtering
   const monthOptions = useMemo(() => {
     if (!data?.length) return []
     const months = data
@@ -61,52 +60,65 @@ const Filters = ({
   }
 
   return (
-    <div className="flex items-center gap-2 flex-wrap justify-end">
-
+    <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto justify-end items-end">
       {showMonths && (
-        <MultiSelectDropdown
-          label="Months"
-          options={monthOptions}
-          selected={selectedMonths}
-          onChange={(vals) => setFilters({ months: vals })}
-        />
+        <div className="w-full sm:w-auto">
+          <MultiSelectDropdown
+            label="Months"
+            options={monthOptions}
+            selected={selectedMonths}
+            onChange={(vals) => setFilters({ months: vals })}
+          />
+        </div>
       )}
-
       {showSupervisors && (
-        <MultiSelectDropdown
-          label="Supervisors"
-          options={supervisorOptions}
-          selected={selectedSupervisors}
-          onChange={(vals) => setFilters({ supervisors: vals })}
-        />
+        <div className="w-full sm:w-auto">
+          <MultiSelectDropdown
+            label="Supervisors"
+            options={supervisorOptions}
+            selected={selectedSupervisors}
+            onChange={(vals) => setFilters({ supervisors: vals })}
+          />
+        </div>
       )}
-
       {showPerformance && (
-        <Dropdown
-          label={perfPerformance}
-          options={performanceOptions}
-          onSelect={(val) => setPerfFilters({ performance: val })}
-        />
+        <div className="w-full sm:w-auto">
+          <Dropdown
+            label={perfPerformance}
+            options={performanceOptions}
+            onSelect={(val) => setPerfFilters({ performance: val })}
+          />
+        </div>
       )}
 
       {showSort && (
-        <Dropdown
-          label={perfSort}
-          options={sortOptions}
-          onSelect={(val) => setPerfFilters({ sort: val })}
-        />
+        <div className="w-full sm:w-auto">
+          <Dropdown
+            label={perfSort}
+            options={sortOptions}
+            onSelect={(val) => setPerfFilters({ sort: val })}
+          />
+        </div>
       )}
-
-      {/* Reset */}
       <button
         onClick={handleReset}
         title="Reset filters"
-        className="flex items-center p-1.5 bg-transparent border-none text-(--primary) cursor-pointer hover:opacity-75 transition-opacity"
+        className="
+          col-span-2 sm:col-span-1 
+          flex items-center justify-center gap-2
+          p-2.5 sm:p-1.5 
+          bg-(--bg-secondary) sm:bg-transparent 
+          border border-(--border) sm:border-none 
+          rounded-xl sm:rounded-none
+          text-(--primary) cursor-pointer 
+          hover:opacity-75 transition-all
+        "
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="23 4 23 10 17 10"/>
           <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
         </svg>
+        <span className="sm:hidden text-xs font-semibold">Reset Filters</span>
       </button>
     </div>
   )
