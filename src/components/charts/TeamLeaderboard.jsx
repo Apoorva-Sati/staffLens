@@ -165,7 +165,7 @@ const TeamLeaderboard = () => {
 
               // Worst team
               else if (i === chartData.length - 1) {
-                barColor = '#EAB308'
+                barColor = 'var(--chart-warning)'
               }
 
               return (

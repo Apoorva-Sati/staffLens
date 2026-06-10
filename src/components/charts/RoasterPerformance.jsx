@@ -14,9 +14,9 @@ import { useDashboard } from '../../context/DataContext'
 import CustomTooltip from '../CustomTooltip'
 
 const SHIFT_COLORS = {
-  MORNING: '#f39c12',
-  AFTERNOON: 'var(--primary)',
-  EVENING: 'var(--primary-dark)',
+  MORNING: 'var(--primary)',
+  AFTERNOON: 'var(--chart-3)',
+  EVENING: 'var(--chart-2)',
 }
 
 const RoasterPerformance = () => {
