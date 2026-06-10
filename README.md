@@ -1,10 +1,15 @@
-# 📊 Productivity Dashboard
+# 🔍 StaffLens
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white" />
   <img src="https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
   <img src="https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
+  <img src="https://img.shields.io/badge/License-Open%20Source-brightgreen?style=for-the-badge" />
+</p>
+
+<p align="center">
+  <a href="https://stafflens.vercel.app">🌐 Live Demo — stafflens.vercel.app</a>
 </p>
 
 A modern, responsive analytics dashboard for team performance monitoring. Upload your Excel or CSV workforce reports and instantly get KPI cards, leaderboards, supervisor comparisons, shift analysis, and interactive charts — all without a backend.
@@ -72,8 +77,8 @@ Four analysis tabs with drill-down views:
 ### Clone & Install
 
 ```bash
-git clone <repository-url>
-cd productivity-dashboard
+git clone https://github.com/yourusername/stafflens.git
+cd stafflens
 npm install
 ```
 
@@ -109,7 +114,7 @@ npm run preview     # preview the production build locally
 ## 🗂️ Project Structure
 
 ```
-productivity-dashboard/
+stafflens/
 ├── public/
 │   ├── Company_LOGO.png
 │   └── dashboard_dummy_data_2026.xlsx   # default demo dataset
@@ -210,6 +215,8 @@ Or connect your GitHub repository directly in the Vercel dashboard for automatic
 
 Set `UPLOAD_PASSWORD` as an environment variable in your Vercel project settings.
 
+🌐 **Live:** [stafflens.vercel.app](https://stafflens.vercel.app)
+
 ---
 
 ## 🌐 Internationalization Plan — Arabic (AR)
@@ -241,10 +248,25 @@ The Arabic localization effort will cover:
 
 ---
 
+## 🤝 Contributing
+
+StaffLens is open source and contributions are welcome!
+
+```bash
+# Fork the repo, then:
+git clone https://github.com/yourusername/stafflens.git
+cd stafflens
+npm install
+npm run dev
+```
+
+Feel free to open issues, suggest features, or submit pull requests. If you find it useful, a ⭐ on GitHub goes a long way!
+
+
 ## 📄 License
 
-This project is intended for internal productivity monitoring and reporting purposes.
+This project is open source and available for personal and commercial use.
 
 ---
 
-<p align="center">Built with React + Vite · Deployed on Vercel</p>
+<p align="center">Built with React + Vite · Deployed on Vercel · <a href="https://stafflens.vercel.app">stafflens.vercel.app</a></p>
