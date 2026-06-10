@@ -24,7 +24,7 @@ export function DashboardProvider({ children }) {
 
   // ── Load public file on mount ─────────────────────────────────────────────
   useEffect(() => {
-    loadPublicFile("/dashboard_dummy_data.xlsx")
+    loadPublicFile("/dashboard_dummy_data_2026.xlsx")
       .then(({ data }) => {
         const normalized = data.map(row => ({
           ...row,
@@ -131,7 +131,6 @@ export function DashboardProvider({ children }) {
         setPerfFilters,
         activeTab,
         setActiveTab,
-        // upload-related
         uploadedData,
         uploadedDataId,
         setUploadedData,

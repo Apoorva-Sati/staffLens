@@ -26,6 +26,49 @@ const StaffConsistencyChart = () => {
     total: Number(staff.total),
   }))
 
+  // ── X Axis domain — start near the first data point, not 0 ─────────
+  const minDays = Math.min(...chartData.map((d) => d.x))
+  const maxDays = Math.max(...chartData.map((d) => d.x))
+  const xPad = Math.max(1, Math.round((maxDays - minDays) * 0.08))
+  const xDomain = [Math.max(0, minDays - xPad), maxDays + xPad]
+
+  // ── Label collision avoidance ────────────────────────────────────────
+  const labelOffsets = (() => {
+    const xRange = xDomain[1] - xDomain[0] || 1
+    const yVals = chartData.map((d) => d.y)
+    const yRange = (Math.max(...yVals) - Math.min(...yVals)) || 1
+    const xThresh = xRange * 0.09
+    const yThresh = yRange * 0.3
+
+    const offsets = Object.fromEntries(
+      chartData.map((d) => [d.name, { dy: -14, dx: 0 }])
+    )
+
+    for (let i = 0; i < chartData.length; i++) {
+      for (let j = i + 1; j < chartData.length; j++) {
+        const a = chartData[i]
+        const b = chartData[j]
+        if (
+          Math.abs(a.x - b.x) < xThresh &&
+          Math.abs(a.y - b.y) < yThresh
+        ) {
+          // Stagger vertically if both labels are at the same level
+          if (offsets[a.name].dy === offsets[b.name].dy) {
+            offsets[a.name].dy = -22
+            offsets[b.name].dy = 12
+          }
+          // Also nudge horizontally when very close in x
+          if (Math.abs(a.x - b.x) < xThresh * 0.4) {
+            offsets[a.name].dx = -10
+            offsets[b.name].dx = 10
+          }
+        }
+      }
+    }
+
+    return offsets
+  })()
+
   // ── Average Working Days ────────────────────────────────────────────
   const avgDays =
     chartData.length > 0
@@ -90,6 +133,7 @@ const StaffConsistencyChart = () => {
             type="number"
             dataKey="x"
             name="Working Days"
+            domain={xDomain}
             label={{
               value: 'Working Days',
               position: 'insideBottom',
@@ -149,6 +193,7 @@ const StaffConsistencyChart = () => {
             opacity={0.85}
             shape={(props) => {
               const { cx, cy, payload } = props
+              const { dy, dx } = labelOffsets[payload.name] ?? { dy: -14, dx: 0 }
 
               return (
                 <g>
@@ -161,8 +206,8 @@ const StaffConsistencyChart = () => {
                   />
 
                   <text
-                    x={cx}
-                    y={cy - 10}
+                    x={cx + dx}
+                    y={cy + dy}
                     textAnchor="middle"
                     fill="var(--text-secondary)"
                     fontSize={10}

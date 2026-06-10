@@ -13,7 +13,7 @@ function App() {
         <div className="w-full md:w-64 flex flex-col border-b md:border-b-0 md:border-r border-(--border) shrink-0">
           <div className="h-16 flex items-center px-6 justify-between md:justify-start ">
             <img
-              src="/Logo.png"
+              src="/Company_LOGO.png"
               alt="Logo"
               className="w-32 md:w-40 h-auto"
             />

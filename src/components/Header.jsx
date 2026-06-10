@@ -18,7 +18,7 @@ const Header = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between h-full px-4 py-3 md:py-0 gap-4">
         <div className="min-w-0 flex-1">
           <div className="text-xl md:text-2xl font-bold truncate text-left tracking-tight">
-            Productivity Dashboard - AAN
+            Productivity Dashboard
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-3 justify-start md:justify-end">

@@ -39,7 +39,6 @@ function parseExcel(buffer, fileName) {
       }
     );
   });
-
   return {
     data: allSheets[sheetNames[0]],   // rows from first sheet
     allSheets,                         // { sheetName: rows[] } for all sheets
@@ -60,13 +59,6 @@ function parseCSV(buffer, fileName) {
   };
 }
 
-/**
- * Load a file that lives in /public (e.g. dashboard_dummy_data.xlsx)
- * by its public URL path.
- *
- * @param {string} publicPath - e.g. '/dashboard_dummy_data.xlsx'
- * @returns {Promise<{ data: object[], sheetNames: string[], fileName: string }>}
- */
 export async function loadPublicFile(publicPath) {
   const response = await fetch(publicPath);
   if (!response.ok) throw new Error(`Failed to fetch ${publicPath}: ${response.status}`);
