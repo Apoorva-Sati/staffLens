@@ -5,36 +5,51 @@ import ChartImage from './ChartImage'
 const getInitials = (name) =>
     name?.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?'
 
-const Avatar = ({ name, isBottom }) => (
-    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-bold text-white shrink-0 border-2 ${isBottom ? 'border-(--primary) bg-(--primary-dark)' : 'border-[#2ecc71] bg-(--primary-dark)'}`}>
-        {getInitials(name)}
-    </div>
+const PODIUM_CONFIG = [
+    { rank: 2, color: '#7a0f14', pedestalH: 72, avatarSize: 44 },
+    { rank: 1, color: '#ed1c24', pedestalH: 104, avatarSize: 60 },
+    { rank: 3, color: '#666666', pedestalH: 48, avatarSize: 40 },
+]
+
+const CrownIcon = ({ color }) => (
+    <svg width="22" height="18" viewBox="0 0 24 18" fill={color} className="mb-1">
+        <path d="M2 15h20v2H2zm1-2h18l-3-9-5 6-3-7-3 7-5-6z" />
+    </svg>
 )
 
-const RankBadge = ({ rank, isBottom }) => (
-    <div className={`w-5.5 h-5.5 rounded-full shrink-0 flex items-center justify-center text-[11px] font-bold text-white ${isBottom ? 'bg-[var(--primary)]' : 'bg-[#2ecc71]'}`}>
-        {rank}
-    </div>
-)
-
-const PerformerCard = ({ rank, name, avg, isBottom }) => (
-    <div className={`flex items-center gap-3 px-3 py-3 rounded-xl border transition-transform duration-200 hover:translate-x-1 bg-(--bg-secondary) ${isBottom ? 'border-[rgba(237,28,36,0.2)]' : 'border-[rgba(46,204,113,0.2)]'}`}>
-        <RankBadge rank={rank} isBottom={isBottom} />
-        <Avatar name={name} isBottom={isBottom} />
-        <div className="flex-1 min-w-0">
-            <div className="text-(--text-main) font-semibold text-sm truncate" title={name}>
-                {name}
+const PodiumSlot = ({ person, config }) => {
+    const { rank, color, pedestalH, avatarSize } = config
+    return (
+        <div className="flex flex-col items-center" style={{ width: 88 }}>
+            {rank === 1 && <CrownIcon color={color} />}
+            <div
+                className="rounded-full flex items-center justify-center font-bold text-white shadow-md mb-1.5 border-2 border-white"
+                style={{ width: avatarSize, height: avatarSize, background: color, fontSize: Math.round(avatarSize * 0.3) }}
+            >
+                {getInitials(person.name)}
+            </div>
+            <div
+                className="text-xs font-bold text-(--text-main) text-center leading-tight w-full truncate px-1 mb-0.5"
+                title={person.name}
+            >
+                {person.name}
+            </div>
+            <div className="font-extrabold mb-1.5 text-base" style={{ color }}>
+                {person.avg}
+            </div>
+            <div
+                className="w-full rounded-t-lg flex items-center justify-center font-black text-white"
+                style={{ height: pedestalH, background: color, fontSize: 30, opacity: 0.92 }}
+            >
+                {rank}
             </div>
         </div>
-        <div className={`text-xl font-extrabold ${isBottom ? 'text-(--primary)' : 'text-[#2ecc71]'}`}>
-            {avg}
-        </div>
-    </div>
-)
+    )
+}
 
 const StatRow = ({ label, value, bar, icons }) => (
-    <div className="mb-5">
-        <div className="text-[11px] font-bold tracking-widest text-(--text-muted) mb-1">{label}</div>
+    <div className="mb-5 min-w-0">
+        <div className="text-[11px] font-bold tracking-[1px] text-(--text-muted) mb-1">{label}</div>
         <div className="text-[28px] font-extrabold leading-none text-(--text-main)">{value}</div>
         {bar != null && (
             <div className="mt-2 h-1 rounded-full bg-(--border)">
@@ -69,24 +84,19 @@ const SupervisorPill = ({ name }) => (
 
 const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
     const { stats, perfStats, rawStats, selectedSupervisors } = useDashboard()
-    const totalTasks = stats?.totalTasks || 0
 
     const allSupervisors = perfStats?.supervisorList || []
     const isFiltered = selectedSupervisors.length > 0
 
     const displaySupervisors = isFiltered
         ? allSupervisors.filter(s => selectedSupervisors.includes(s.name))
-        : bestSupervisor
-            ? [bestSupervisor]
-            : []
+        : bestSupervisor ? [bestSupervisor] : []
 
     const primarySup = displaySupervisors[0] || null
     const extraSups = displaySupervisors.slice(1)
 
     const cardLabel = isFiltered
-        ? selectedSupervisors.length === 1
-            ? 'SELECTED SUPERVISOR'
-            : `SELECTED SUPERVISORS`
+        ? selectedSupervisors.length === 1 ? 'SELECTED SUPERVISOR' : 'SELECTED SUPERVISORS'
         : 'BEST SUPERVISOR'
 
     const aggregated = displaySupervisors.reduce(
@@ -98,37 +108,75 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
         { totalTasks: 0, teamSize: 0, avgProductivity: 0 }
     )
     const displayAvg = displaySupervisors.length > 0
-        ? (aggregated.avgProductivity / displaySupervisors.length).toFixed(2)
-        : '—'
+        ? (aggregated.avgProductivity / displaySupervisors.length).toFixed(2) : '—'
     const displayTasks = displaySupervisors.length > 0 ? aggregated.totalTasks : '—'
     const displayTeamSize = displaySupervisors.length > 0 ? aggregated.teamSize : '—'
 
+    const podiumOrder = top3?.length >= 3
+        ? [
+            { person: top3[1], config: PODIUM_CONFIG[0] },
+            { person: top3[0], config: PODIUM_CONFIG[1] },
+            { person: top3[2], config: PODIUM_CONFIG[2] },
+          ]
+        : []
+
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4 items-start w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_1fr_minmax(260px,300px)] gap-4 items-start w-full">
+            {/* TOP 3 CARD */}
             <div className="card w-full">
-                <div className="text-xs font-bold tracking-[1.5px] text-(--text-muted) mb-5">
-                    PERFORMANCE LEADERBOARDS
+                <div className="text-[11px] font-bold tracking-widest text-(--text-muted) mb-4">
+                    TOP 3 PERFORMERS
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                        <div className="text-[11px] font-bold tracking-widest text-[#2ecc71] mb-3">TOP 3 PERFORMERS</div>
-                        <div className="flex flex-col gap-2">
-                            {top3?.map((p, i) => (
-                                <PerformerCard key={p.name} rank={i + 1} name={p.name} avg={p.avg} isBottom={false} />
-                            ))}
-                        </div>
+                {podiumOrder.length === 3 ? (
+                    <div className="flex items-end justify-center gap-2">
+                        {podiumOrder.map(({ person, config }) => (
+                            <PodiumSlot key={person.name} person={person} config={config} />
+                        ))}
                     </div>
-                    <div>
-                        <div className="text-[11px] font-bold tracking-widest text-(--primary) mb-3">BOTTOM 3 PERFORMERS</div>
-                        <div className="flex flex-col gap-2">
-                            {bottom3?.map((p, i) => (
-                                <PerformerCard key={p.name} rank={i + 1} name={p.name} avg={p.avg} isBottom={true} />
-                            ))}
+                ) : (
+                    <div className="text-sm text-(--text-muted)">Not enough data</div>
+                )}
+            </div>
+
+            {/* BOTTOM 3 CARD */}
+            <div className="card w-full">
+                <div className="text-[11px] font-bold tracking-widest text-(--text-muted) mb-4">
+                    BOTTOM 3 PERFORMERS
+                </div>
+                <div className="flex flex-col gap-2">
+                    {bottom3?.map((p, i) => (
+                        <div
+                            key={p.name}
+                            className="flex items-center gap-3 px-3 py-3 rounded-xl bg-(--bg-secondary) border border-(--border)"
+                            style={{ borderLeft: '4px solid #ed1c24' }}
+                        >
+                            <div
+                                className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
+                                style={{ background: '#ed1c24' }}
+                            >
+                                {i + 1}
+                            </div>
+                            <div
+                                className="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-bold text-white shrink-0"
+                                style={{ background: '#7a0f14' }}
+                            >
+                                {getInitials(p.name)}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <div className="text-sm font-semibold text-(--text-main) truncate" title={p.name}>
+                                    {p.name}
+                                </div>
+                            </div>
+                            <div className="text-lg font-extrabold shrink-0" style={{ color: '#ed1c24' }}>
+                                {p.avg}
+                            </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
             </div>
-            <div className="bg-card border border-(--border) rounded-xl p-5 shadow-sm w-full lg:min-w-60 lg:w-auto">
+
+            {/* SUPERVISOR PANEL */}
+            <div className="bg-card border border-(--border) rounded-xl p-5 shadow-sm w-full lg:col-span-2 xl:col-span-1">
                 <div className="text-xs font-bold tracking-[1.5px] text-(--text-muted) mb-5">
                     TEAM SUMMARY & SUPERVISOR STATS
                 </div>
@@ -161,22 +209,20 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
                                 )}
                             </div>
                         </div>
-                        <div className="flex items-center justify-between mb-5 text-left gap-4">
-                            <StatRow
-                                label={isFiltered && displaySupervisors.length > 1 ? 'COMBINED AVG PRODUCTIVITY' : 'AVERAGE PRODUCTIVITY'}
-                                value={displayAvg}
-                            />
-                            <div className="shrink-0">
+                        <div className="mb-5">
+                            <div className="text-[11px] font-bold tracking-[1px] text-(--text-muted) mb-1">
+                                {isFiltered && displaySupervisors.length > 1 ? 'COMBINED AVG PRODUCTIVITY' : 'AVERAGE PRODUCTIVITY'}
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <div className="text-[28px] font-extrabold leading-none text-(--text-main)">{displayAvg}</div>
                                 <ChartImage />
                             </div>
                         </div>
-
                         <StatRow
                             label="TOTAL TASKS COMPLETED"
                             value={displayTasks}
                             bar={rawStats?.totalTasks > 0 ? (aggregated.totalTasks / rawStats.totalTasks) * 100 : 0}
                         />
-
                         <StatRow
                             label="TEAM SIZE"
                             value={displayTeamSize}
@@ -189,7 +235,6 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
                     </div>
                 )}
             </div>
-
         </div>
     )
 }

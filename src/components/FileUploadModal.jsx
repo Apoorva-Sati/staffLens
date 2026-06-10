@@ -96,7 +96,7 @@ const PasswordGate = ({ onSuccess, onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 py-2 rounded-lg text-sm text-(--text-muted) border border-(--border) hover:bg-[#1a1a1a] transition-colors"
+            className="flex-1 py-2 rounded-lg text-sm text-(--text-muted) border border-(--border) hover:bg-(--hover-bg) transition-colors"
           >
             Cancel
           </button>
@@ -142,7 +142,7 @@ const DropZone = ({ onFile, uploading, uploadError }) => {
         transition-all duration-200
         ${dragging
           ? 'border-(--primary) bg-[rgba(237,28,36,0.06)]'
-          : 'border-(--border) hover:border-[#444] hover:bg-[#1a1a1a]'
+          : 'border-(--border) hover:border-(--gray) hover:bg-(--hover-bg)'
         }
         ${uploading ? 'pointer-events-none opacity-60' : ''}
       `}
@@ -213,7 +213,7 @@ const HistoryList = ({ history, activeId, onRestore, onDelete }) => {
               flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-colors
               ${isActive
                 ? 'border-(--primary) bg-[rgba(237,28,36,0.08)]'
-                : 'border-(--border) bg-(--bg-main) hover:border-[#444]'
+                : 'border-(--border) bg-(--bg-main) hover:border-(--gray)'
               }
             `}
           >
@@ -243,7 +243,7 @@ const HistoryList = ({ history, activeId, onRestore, onDelete }) => {
                 </span>
               )}
               {isActive && (
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[rgba(46,204,113,0.15)] text-[#2ecc71] uppercase tracking-wider">
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-(--color-success-muted) text-(--color-success) uppercase tracking-wider">
                   active
                 </span>
               )}
@@ -348,7 +348,7 @@ const FileUploadModal = ({ onClose }) => {
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-(--text-muted) hover:text-(--text-main) hover:bg-[#2a2a2a] transition-colors"
+            className="p-1.5 rounded-lg text-(--text-muted) hover:text-(--text-main) hover:bg-(--hover-bg) transition-colors"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -398,7 +398,7 @@ const FileUploadModal = ({ onClose }) => {
 
               {/* current source indicator */}
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-(--bg-main) border border-(--border)">
-                <div className={`w-2 h-2 rounded-full shrink-0 ${uploadedDataId ? 'bg-[#2ecc71]' : 'bg-(--text-muted)'}`} />
+                <div className={`w-2 h-2 rounded-full shrink-0 ${uploadedDataId ? 'bg-(--color-success)' : 'bg-(--text-muted)'}`} />
                 <p className="text-xs text-(--text-muted)">
                   {uploadedDataId
                     ? `Using uploaded file · ${history.find(h => h.id === uploadedDataId)?.fileName ?? 'unknown'}`

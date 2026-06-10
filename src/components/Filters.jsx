@@ -60,7 +60,7 @@ const Filters = ({
   }
 
   return (
-    <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto justify-end items-end">
+    <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center gap-2 w-full justify-end items-end">
       {showMonths && (
         <div className="w-full sm:w-auto">
           <MultiSelectDropdown

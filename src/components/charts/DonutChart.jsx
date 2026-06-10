@@ -2,7 +2,7 @@ import React from 'react'
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { useDashboard } from '../../context/DataContext'
 
-const COLORS = ['var(--primary)', '#7a0f14', '#b5860d', '#2ecc71', '#3498db']
+const COLORS = ['var(--primary)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)']
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
