@@ -116,7 +116,7 @@ npm run preview     # preview the production build locally
 ```
 stafflens/
 ├── public/
-│   ├── Company_LOGO.png
+│   ├── Logo.png
 │   └── dashboard_dummy_data_2026.xlsx   # default demo dataset
 ├── api/
 │   └── verify-password.js               # Vercel serverless function

@@ -14,7 +14,7 @@ function App() {
         {/* Desktop-only sidebar */}
         <div className="hidden md:flex md:w-64 flex-col border-r border-(--sidebar-border) bg-(--sidebar-nav-bg) shrink-0">
           <div className="h-16 flex items-center px-6">
-            <img src="/Company_LOGO.png" alt="Logo" className="w-40 h-auto" />
+            <img src="/Logo.png" alt="Logo" className="w-40 h-auto" />
           </div>
           <Navbar />
         </div>
@@ -24,7 +24,7 @@ function App() {
 
           {/* Mobile-only logo bar */}
           <div className="md:hidden h-16 flex items-center px-6 border-b border-(--sidebar-border) bg-(--sidebar-nav-bg) shrink-0">
-            <img src="/Company_LOGO.png" alt="Logo" className="w-32 h-auto" />
+            <img src="/Logo.png" alt="Logo" className="w-32 h-auto" />
           </div>
 
           {/* Header */}

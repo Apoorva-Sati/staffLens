@@ -51,7 +51,7 @@ const Header = () => {
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0 flex-1">
             <div className="text-xl md:text-2xl font-bold truncate text-left tracking-tight text-(--text-main)">
-              Staff Lens
+              Productivity Dashboard
             </div>
           </div>
           <div className="flex items-center gap-3 shrink-0">
