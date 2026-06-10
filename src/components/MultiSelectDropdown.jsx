@@ -134,7 +134,7 @@ const MultiSelectDropdown = ({
                     transition-colors duration-150
                     ${checked
                       ? 'bg-(--primary-dark) text-white'
-                      : 'bg-transparent text-(--text-secondary) hover:bg-[#1f1f1f]'
+                      : 'bg-transparent text-(--text-secondary) hover:bg-(--hover-bg)'
                     }
                   `}
                 >

@@ -13,11 +13,9 @@ import CustomTooltip from '../CustomTooltip'
 
 const COLORS = [
   'var(--primary)',
-  'var(--primary-dark)',
-  '#f39c12',
-  '#2ecc71',
-  '#3498db',
-  '#9b59b6',
+  'var(--chart-2)',
+  'var(--chart-3)',
+  'var(--chart-4)',
 ]
 
 const SubSkillBreakdown = () => {

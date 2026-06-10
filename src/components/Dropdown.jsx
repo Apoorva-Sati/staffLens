@@ -34,7 +34,7 @@ const Dropdown = ({ label, options, onSelect }) => {
                   className={`w-full text-left px-3 py-2 rounded-lg border-none cursor-pointer text-[13px] transition-colors duration-150
                     ${opt === label
                       ? 'bg-(--primary-dark) text-white'
-                      : 'bg-transparent text-(--text-secondary) hover:bg-[#1f1f1f]'
+                      : 'bg-transparent text-(--text-secondary) hover:bg-(--hover-bg)'
                     }`}
                 >
                   {opt}
