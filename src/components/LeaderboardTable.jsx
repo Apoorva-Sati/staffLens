@@ -48,8 +48,8 @@ const PodiumSlot = ({ person, config }) => {
 }
 
 const StatRow = ({ label, value, bar, icons }) => (
-    <div className="mb-5">
-        <div className="text-[11px] font-bold tracking-widest text-(--text-muted) mb-1">{label}</div>
+    <div className="mb-5 min-w-0">
+        <div className="text-[11px] font-bold tracking-[1px] text-(--text-muted) mb-1">{label}</div>
         <div className="text-[28px] font-extrabold leading-none text-(--text-main)">{value}</div>
         {bar != null && (
             <div className="mt-2 h-1 rounded-full bg-(--border)">
@@ -121,7 +121,7 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
         : []
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr_auto] gap-4 items-start w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[1fr_1fr_minmax(260px,300px)] gap-4 items-start w-full">
             {/* TOP 3 CARD */}
             <div className="card w-full">
                 <div className="text-[11px] font-bold tracking-widest text-(--text-muted) mb-4">
@@ -176,7 +176,7 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
             </div>
 
             {/* SUPERVISOR PANEL */}
-            <div className="bg-card border border-(--border) rounded-xl p-5 shadow-sm w-full lg:min-w-60 lg:w-auto">
+            <div className="bg-card border border-(--border) rounded-xl p-5 shadow-sm w-full lg:col-span-2 xl:col-span-1">
                 <div className="text-xs font-bold tracking-[1.5px] text-(--text-muted) mb-5">
                     TEAM SUMMARY & SUPERVISOR STATS
                 </div>
@@ -209,12 +209,14 @@ const LeaderboardTable = ({ top3, bottom3, bestSupervisor }) => {
                                 )}
                             </div>
                         </div>
-                        <div className="flex items-center justify-between mb-5 text-left gap-4">
-                            <StatRow
-                                label={isFiltered && displaySupervisors.length > 1 ? 'COMBINED AVG PRODUCTIVITY' : 'AVERAGE PRODUCTIVITY'}
-                                value={displayAvg}
-                            />
-                            <div className="shrink-0"><ChartImage /></div>
+                        <div className="mb-5">
+                            <div className="text-[11px] font-bold tracking-[1px] text-(--text-muted) mb-1">
+                                {isFiltered && displaySupervisors.length > 1 ? 'COMBINED AVG PRODUCTIVITY' : 'AVERAGE PRODUCTIVITY'}
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <div className="text-[28px] font-extrabold leading-none text-(--text-main)">{displayAvg}</div>
+                                <ChartImage />
+                            </div>
                         </div>
                         <StatRow
                             label="TOTAL TASKS COMPLETED"

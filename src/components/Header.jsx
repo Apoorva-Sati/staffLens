@@ -42,69 +42,78 @@ const Header = () => {
   const isDashboardPage   = location.pathname.startsWith('/dashboard')
   const isStaffTab        = isPerformancePage && activeTab === 'staff'
 
+  const hasFilters = isPerformancePage || isDashboardPage
+
   return (
     <>
-      <div className="flex flex-col md:flex-row md:items-center justify-between h-full px-4 py-3 md:py-0 gap-4">
-        <div className="min-w-0 flex-1">
-          <div className="text-xl md:text-2xl font-bold truncate text-left tracking-tight text-(--text-main)">
-            Productivity Dashboard
+      <div className="flex flex-col px-4 py-3 gap-2">
+        {/* Row 1: title + action buttons — always a single row */}
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <div className="text-xl md:text-2xl font-bold truncate text-left tracking-tight text-(--text-main)">
+              Productivity Dashboard
+            </div>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <button
+              onClick={() => setIsDark(d => !d)}
+              title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="
+                flex items-center justify-center w-8 h-8
+                rounded-full border border-(--border)
+                bg-(--card-bg) text-(--text-muted)
+                hover:border-(--primary) hover:text-(--primary)
+                transition-all duration-200 shrink-0
+              "
+            >
+              {isDark ? <SunIcon /> : <MoonIcon />}
+            </button>
+
+            <button
+              onClick={() => setShowUpload(true)}
+              title="Upload data file"
+              className="
+                relative flex items-center gap-2 px-3 py-1.5
+                rounded-full text-xs font-semibold
+                border transition-all duration-200
+                shrink-0
+                border-(--primary) text-(--primary)
+                hover:bg-(--primary) hover:text-white
+              "
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              <span>Upload</span>
+
+              {uploadedDataId && (
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-(--color-success) border-2 border-(--bg-main)" />
+              )}
+            </button>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-3 justify-start md:justify-end">
-          {isPerformancePage && (
-            <Filters
-              showMonths
-              showSupervisors
-              showPerformance={isStaffTab}
-              showSort={isStaffTab}
-            />
-          )}
-          {isDashboardPage && (
-            <Filters
-              showMonths
-              showSupervisors
-            />
-          )}
 
-          {/* Theme toggle */}
-          <button
-            onClick={() => setIsDark(d => !d)}
-            title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="
-              flex items-center justify-center w-8 h-8
-              rounded-full border border-(--border)
-              bg-(--card-bg) text-(--text-muted)
-              hover:border-(--primary) hover:text-(--primary)
-              transition-all duration-200 shrink-0
-            "
-          >
-            {isDark ? <SunIcon /> : <MoonIcon />}
-          </button>
-
-          <button
-            onClick={() => setShowUpload(true)}
-            title="Upload data file"
-            className="
-              relative flex items-center gap-2 px-3 py-1.5
-              rounded-full text-xs font-semibold
-              border transition-all duration-200
-              shrink-0
-              border-(--primary) text-(--primary)
-              hover:bg-(--primary) hover:text-white
-            "
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="17 8 12 3 7 8"/>
-              <line x1="12" y1="3" x2="12" y2="15"/>
-            </svg>
-            <span>Upload</span>
-
-            {uploadedDataId && (
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-(--color-success) border-2 border-(--bg-main)" />
+        {/* Row 2: filters — only shown on pages that have them */}
+        {hasFilters && (
+          <div className="flex justify-end">
+            {isPerformancePage && (
+              <Filters
+                showMonths
+                showSupervisors
+                showPerformance={isStaffTab}
+                showSort={isStaffTab}
+              />
             )}
-          </button>
-        </div>
+            {isDashboardPage && (
+              <Filters
+                showMonths
+                showSupervisors
+              />
+            )}
+          </div>
+        )}
       </div>
       {showUpload && (
         <FileUploadModal onClose={() => setShowUpload(false)} />
