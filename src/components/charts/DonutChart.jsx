@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { useDashboard } from '../../context/DataContext'
 
@@ -23,24 +23,40 @@ const CustomTooltip = ({ active, payload }) => {
   return null
 }
 
-const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, payload }) => {
-  const RADIAN = Math.PI / 180
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5
-  const x = cx + radius * Math.cos(-midAngle * RADIAN)
-  const y = cy + radius * Math.sin(-midAngle * RADIAN)
-  return (
-    <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={12} fontWeight={600}>
-      {`${payload.totalTasks}/${payload.avgProductivity}`}
-    </text>
-  )
-}
-
 const DonutChart = () => {
   const { perfStats } = useDashboard()
-  if (!perfStats) return null
+  const containerRef = useRef(null)
+  const [containerWidth, setContainerWidth] = useState(320)
 
+  useEffect(() => {
+    if (!containerRef.current) return
+    const ro = new ResizeObserver(entries => {
+      setContainerWidth(entries[0].contentRect.width)
+    })
+    ro.observe(containerRef.current)
+    return () => ro.disconnect()
+  }, [])
+
+  if (!perfStats) return null
   const { supervisorList } = perfStats
   if (!supervisorList || supervisorList.length === 0) return null
+
+  const outerRadius = Math.min(Math.floor(containerWidth * 0.32), 140)
+  const innerRadius = Math.floor(outerRadius * 0.64)
+  const labelFontSize = Math.max(9, Math.floor(outerRadius * 0.12))
+  const chartHeight = outerRadius * 2 + 90
+
+  const renderCustomLabel = ({ cx, cy, midAngle, innerRadius: ir, outerRadius: or, payload }) => {
+    const RADIAN = Math.PI / 180
+    const radius = ir + (or - ir) * 0.5
+    const x = cx + radius * Math.cos(-midAngle * RADIAN)
+    const y = cy + radius * Math.sin(-midAngle * RADIAN)
+    return (
+      <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={labelFontSize} fontWeight={600}>
+        {`${payload.totalTasks}/${payload.avgProductivity}`}
+      </text>
+    )
+  }
 
   const chartData = supervisorList.map(s => ({
     name:            s.name,
@@ -50,18 +66,18 @@ const DonutChart = () => {
   }))
 
   return (
-    <div className="card">
+    <div className="card" ref={containerRef}>
       <div className="text-xs font-bold tracking-[1.5px] text-(--text-muted) mb-5">
         TASKS BY SUPERVISOR
       </div>
-      <ResponsiveContainer width="100%" height={320}>
+      <ResponsiveContainer width="100%" height={chartHeight}>
         <PieChart>
           <Pie
             data={chartData}
             cx="50%"
             cy="50%"
-            innerRadius={90}
-            outerRadius={140}
+            innerRadius={innerRadius}
+            outerRadius={outerRadius}
             dataKey="value"
             labelLine={false}
             label={renderCustomLabel}
